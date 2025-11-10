@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Name — Architect Portfolio</title>
+    <meta name="description" content="Portfolio of Your Name, architect and designer. Selected residential, commercial, and interior projects." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#projects">Skip to projects</a>
+
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="Home">
+          <span class="brand-mark" aria-hidden="true">▢</span>
+          <span class="brand-name">Your Name</span>
+          <span class="brand-role">Architect</span>
+        </a>
+
+        <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="sr-only">Menu</span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <ul>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero" class="hero section">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>Human-centered architecture with timeless simplicity</h1>
+            <p>
+              I’m an architect focused on thoughtful residential, commercial, and interior projects.
+              My work balances context, material, and light.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#projects">View Work</a>
+              <a class="btn ghost" href="#contact">Get in Touch</a>
+            </div>
+          </div>
+          <figure class="hero-media">
+            <img src="assets/images/hero-placeholder.jpg" alt="Project collage placeholder" loading="eager" />
+          </figure>
+        </div>
+      </section>
+
+      <section id="projects" class="section projects">
+        <div class="container">
+          <div class="section-head">
+            <h2>Selected Work</h2>
+            <div class="filters" role="tablist" aria-label="Project filters">
+              <button class="filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+              <button class="filter" data-filter="residential" role="tab">Residential</button>
+              <button class="filter" data-filter="commercial" role="tab">Commercial</button>
+              <button class="filter" data-filter="interior" role="tab">Interior</button>
+              <button class="filter" data-filter="concept" role="tab">Concept</button>
+            </div>
+          </div>
+
+          <div class="grid">
+            <article class="card" data-category="residential">
+              <a class="card-link" href="#" aria-label="Project — Hillside House">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-1.jpg" alt="Hillside House exterior" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>Hillside House</h3>
+                  <p class="meta">Residential · 2023 · Portland, OR</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="card" data-category="commercial">
+              <a class="card-link" href="#" aria-label="Project — Atelier Workspace">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-2.jpg" alt="Atelier Workspace interior" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>Atelier Workspace</h3>
+                  <p class="meta">Commercial · 2022 · Seattle, WA</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="card" data-category="interior">
+              <a class="card-link" href="#" aria-label="Project — Courtyard Loft">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-3.jpg" alt="Courtyard Loft living room" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>Courtyard Loft</h3>
+                  <p class="meta">Interior · 2021 · San Francisco, CA</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="card" data-category="residential">
+              <a class="card-link" href="#" aria-label="Project — River Cabin">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-4.jpg" alt="River Cabin exterior" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>River Cabin</h3>
+                  <p class="meta">Residential · 2020 · Bend, OR</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="card" data-category="commercial">
+              <a class="card-link" href="#" aria-label="Project — Corner Cafe">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-5.jpg" alt="Corner Cafe facade" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>Corner Cafe</h3>
+                  <p class="meta">Commercial · 2020 · Austin, TX</p>
+                </div>
+              </a>
+            </article>
+
+            <article class="card" data-category="concept">
+              <a class="card-link" href="#" aria-label="Project — Timber Pavilion">
+                <figure class="card-media">
+                  <img src="assets/images/projects/project-6.jpg" alt="Timber Pavilion concept" loading="lazy" />
+                </figure>
+                <div class="card-body">
+                  <h3>Timber Pavilion</h3>
+                  <p class="meta">Concept · 2019 · Competition</p>
+                </div>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section about">
+        <div class="container about-inner">
+          <figure class="about-media">
+            <img src="assets/images/portrait.jpg" alt="Portrait of Your Name" loading="lazy" />
+          </figure>
+          <div class="about-copy">
+            <h2>About</h2>
+            <p>
+              I design places for people — quiet, light-filled spaces that feel inevitable.
+              My process is collaborative and rooted in careful listening.
+            </p>
+            <ul class="traits">
+              <li>Context-first approach</li>
+              <li>Material clarity</li>
+              <li>Craft and detail</li>
+              <li>Sustainable strategies</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="section services">
+        <div class="container">
+          <h2>Services</h2>
+          <div class="cards-3">
+            <div class="service-card">
+              <h3>Residential</h3>
+              <p>New homes, renovations, and additions with a focus on site, light, and life.</p>
+            </div>
+            <div class="service-card">
+              <h3>Commercial</h3>
+              <p>Workplaces and retail environments that balance brand, function, and wellbeing.</p>
+            </div>
+            <div class="service-card">
+              <h3>Interiors</h3>
+              <p>Human-centered interiors with material warmth and timeless detail.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <div class="container contact-inner">
+          <div class="contact-copy">
+            <h2>Let’s talk</h2>
+            <p>
+              I’m currently accepting select residential and small commercial commissions.
+              Share a few details and I’ll be in touch.
+            </p>
+            <ul class="contact-list">
+              <li><strong>Email:</strong> <a href="mailto:hello@example.com">hello@example.com</a></li>
+              <li><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567‑890</a></li>
+              <li><strong>Location:</strong> Portland, OR — working nationwide</li>
+            </ul>
+          </div>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button type="submit" class="btn primary">Send</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> Your Name — Architect</p>
+        <ul class="footer-links">
+          <li><a href="#top">Back to top</a></li>
+          <li><a href="#projects">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+  
+</html>
+
