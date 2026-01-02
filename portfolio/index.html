@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Portfolio</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Home">Portfolio</a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul>
+            <li><a href="index.html" data-nav="home">Home</a></li>
+            <li><a href="about.html" data-nav="about">About</a></li>
+            <li><a href="projects.html" data-nav="projects">Projects</a></li>
+            <li><a href="idea.html" data-nav="ideas">Ideas</a></li>
+            <li><a href="contact.html" data-nav="contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="site-main">
+      <section class="hero" id="hero">
+        <div class="container">
+          <h1>Hello, I’m <span class="accent">Your Name</span></h1>
+          <p class="subtitle">Architect & Front-End Developer</p>
+          <p class="lede">
+            I design thoughtful spaces and craft clean, accessible web
+            experiences. Explore selected work and feel free to reach out.
+          </p>
+          <div class="hero-cta">
+            <a class="btn primary" href="projects.html">View Projects</a>
+            <a class="btn" href="contact.html">Get in Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="featured">
+        <div class="container">
+          <div class="section-head">
+            <h2>Featured Projects</h2>
+            <a class="link" href="projects.html">See all</a>
+          </div>
+          <div id="featured-projects" class="grid cards" aria-live="polite">
+            <noscript>
+              <p>Enable JavaScript to see featured projects.</p>
+            </noscript>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/scroll.js"></script>
+  </body>
+  </html>

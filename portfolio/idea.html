@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ideas | Portfolio</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Home">Portfolio</a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul>
+            <li><a href="index.html" data-nav="home">Home</a></li>
+            <li><a href="about.html" data-nav="about">About</a></li>
+            <li><a href="projects.html" data-nav="projects">Projects</a></li>
+            <li><a href="idea.html" data-nav="ideas">Ideas</a></li>
+            <li><a href="contact.html" data-nav="contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="site-main">
+      <section class="section">
+        <div class="container">
+          <h1>Ideas</h1>
+          <p class="section-intro">
+            Notes, sketches, and thoughts. Each post pairs a short reflection
+            with a single image.
+          </p>
+
+          <div class="ribbon">
+            <button class="ribbon-nav prev" aria-label="Scroll previous" data-target="#ideas-ribbon">‹</button>
+            <div id="ideas-ribbon" class="ribbon-track" aria-live="polite">
+              <div class="card ribbon-card placeholder">
+                <div class="card-media skeleton"></div>
+                <div class="card-body">
+                  <div class="skeleton line"></div>
+                  <div class="skeleton line short"></div>
+                </div>
+              </div>
+              <div class="card ribbon-card placeholder">
+                <div class="card-media skeleton"></div>
+                <div class="card-body">
+                  <div class="skeleton line"></div>
+                  <div class="skeleton line short"></div>
+                </div>
+              </div>
+            </div>
+            <button class="ribbon-nav next" aria-label="Scroll next" data-target="#ideas-ribbon">›</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/scroll.js"></script>
+  </body>
+  </html>
+

@@ -1,0 +1,37 @@
+/*
+  Basic CSS Reset
+  - Sets a consistent baseline across browsers
+  - Keeps form elements and images predictable
+*/
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, figure, dl, dd,
+ul, ol, li, fieldset, legend, hr {
+  margin: 0; padding: 0;
+}
+
+html:focus-within { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, picture, svg, video, canvas { display: block; max-width: 100%; }
+
+input, button, textarea, select { font: inherit; }
+
+button { background: none; border: 0; padding: 0; }
+
+/* Remove list styles on ul, ol elements */
+ul[role='list'], ol[role='list'], ul, ol { list-style: none; }
+
+/* Anchor elements without a class get default styles */
+a { text-decoration: none; color: inherit; }
+
+/* Prevent text overflows */
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
+

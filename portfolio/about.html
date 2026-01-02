@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Portfolio</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Home">Portfolio</a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul>
+            <li><a href="index.html" data-nav="home">Home</a></li>
+            <li><a href="about.html" data-nav="about">About</a></li>
+            <li><a href="projects.html" data-nav="projects">Projects</a></li>
+            <li><a href="idea.html" data-nav="ideas">Ideas</a></li>
+            <li><a href="contact.html" data-nav="contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="site-main">
+      <section class="section">
+        <div class="container two-col about">
+          <div class="about-media">
+            <img
+              src="assets/images/profile.jpg"
+              alt="Portrait of Your Name"
+              width="600"
+              height="600"
+              loading="lazy"
+            />
+          </div>
+          <article class="about-content">
+            <h1>About Me</h1>
+            <p>
+              I’m an architect and front-end developer passionate about the
+              intersection of built environments and digital experiences. My
+              work focuses on clarity, function, and human-centered design.
+            </p>
+            <p>
+              I enjoy translating complex ideas into simple, elegant solutions,
+              whether that’s a physical space plan or an intuitive user
+              interface.
+            </p>
+
+            <h2>Skills</h2>
+            <ul class="skills-list" aria-label="Skills">
+              <li>Architecture & Space Planning</li>
+              <li>HTML5, CSS3, JavaScript (ES6+)</li>
+              <li>Responsive & Accessible UI</li>
+              <li>Design Systems & Prototyping</li>
+              <li>Performance & Front-end Optimization</li>
+            </ul>
+
+            <p>
+              When I’m not working, you’ll find me sketching, exploring
+              buildings, or experimenting with new web techniques.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/scroll.js"></script>
+  </body>
+  </html>
