@@ -8,22 +8,33 @@
     <link rel="stylesheet" href="assets/css/reset.css" />
     <link rel="stylesheet" href="assets/css/variables.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
-    <header class="site-header" role="banner">
-      <div class="container header-inner">
-        <a class="logo" href="index.html" aria-label="Home">Portfolio</a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul>
-            <li><a href="index.html" data-nav="home">Home</a></li>
-            <li><a href="about.html" data-nav="about">About</a></li>
-            <li><a href="projects.html" data-nav="projects">Projects</a></li>
-            <li><a href="idea.html" data-nav="ideas">Ideas</a></li>
-            <li><a href="contact.html" data-nav="contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                
+                // (選填) 自動標記當前頁面為 "active" 狀態的邏輯
+                highlightCurrentPage();
+            });
+
+        function highlightCurrentPage() {
+            const path = window.location.pathname.split("/").pop();
+            const links = document.querySelectorAll('#navbar-placeholder a');
+            links.forEach(link => {
+                if (link.getAttribute('href') === path) {
+                    link.classList.add('active'); // 你可以在 CSS 定義 .active 的樣式
+                }
+            });
+        }
+    </script>
+</body>
 
     <main id="main" class="site-main">
       <section class="section">
@@ -62,9 +73,26 @@
           <aside>
             <h2>Connect</h2>
             <ul class="social-list">
-              <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
-              <li><a href="#" target="_blank" rel="noopener">GitHub</a></li>
-              <li><a href="#" target="_blank" rel="noopener">Twitter</a></li>
+              <li>
+                <a href="#" target="_blank" rel="noopener">
+                  <i data-lucide="linkedin"></i> LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank" rel="noopener">
+                  <i data-lucide="instagram"></i> Instagram
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank" rel="noopener">
+                  <i data-lucide="twitter"></i> Twitter
+                </a>
+              </li>
+              <li>
+                <a href="mailto:your@email.com">
+                  <i data-lucide="mail"></i> Email
+                </a>
+              </li>
             </ul>
           </aside>
         </div>
@@ -80,5 +108,8 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/scroll.js"></script>
     <script src="assets/js/form.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
-  </html>
+</html>

@@ -10,20 +10,30 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
-    <header class="site-header" role="banner">
-      <div class="container header-inner">
-        <a class="logo" href="index.html" aria-label="Home">Portfolio</a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul>
-            <li><a href="index.html" data-nav="home">Home</a></li>
-            <li><a href="about.html" data-nav="about">About</a></li>
-            <li><a href="projects.html" data-nav="projects">Projects</a></li>
-            <li><a href="idea.html" data-nav="ideas">Ideas</a></li>
-            <li><a href="contact.html" data-nav="contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <body>
+      <div id="navbar-placeholder"></div>
+
+      <script>
+        fetch("navbar.html")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("navbar-placeholder").innerHTML = data;
+
+            // (選填) 自動標記當前頁面為 "active" 狀態的邏輯
+            highlightCurrentPage();
+          });
+
+        function highlightCurrentPage() {
+          const path = window.location.pathname.split("/").pop();
+          const links = document.querySelectorAll("#navbar-placeholder a");
+          links.forEach((link) => {
+            if (link.getAttribute("href") === path) {
+              link.classList.add("active"); // 你可以在 CSS 定義 .active 的樣式
+            }
+          });
+        }
+      </script>
+    </body>
 
     <main id="main" class="site-main">
       <section class="section">
@@ -37,32 +47,8 @@
               loading="lazy"
             />
           </div>
-          <article class="about-content">
-            <h1>About Me</h1>
-            <p>
-              I’m an architect and front-end developer passionate about the
-              intersection of built environments and digital experiences. My
-              work focuses on clarity, function, and human-centered design.
-            </p>
-            <p>
-              I enjoy translating complex ideas into simple, elegant solutions,
-              whether that’s a physical space plan or an intuitive user
-              interface.
-            </p>
-
-            <h2>Skills</h2>
-            <ul class="skills-list" aria-label="Skills">
-              <li>Architecture & Space Planning</li>
-              <li>HTML5, CSS3, JavaScript (ES6+)</li>
-              <li>Responsive & Accessible UI</li>
-              <li>Design Systems & Prototyping</li>
-              <li>Performance & Front-end Optimization</li>
-            </ul>
-
-            <p>
-              When I’m not working, you’ll find me sketching, exploring
-              buildings, or experimenting with new web techniques.
-            </p>
+          <article class="about-content" id="about-info">
+            <div class="skeleton-loader">Loading...</div>
           </article>
         </div>
       </section>
@@ -77,4 +63,4 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/scroll.js"></script>
   </body>
-  </html>
+</html>

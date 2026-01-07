@@ -1,0 +1,10 @@
+{
+  "title": "About Me",
+  "paragraphs": [
+    "I am an architectural designer and computational researcher with ten semesters of academic training at Tunghai University and five years of professional experience across architectural practice, BIM consulting, and AI-driven building-technology development.",
+    "My work integrates data-centric design methods with practical implementation, drawing on experience in Grasshopper, Python, space syntax, BIM, CFD, and C# development.",
+    "I have applied computational strategies to interior optimization, urban traffic analysis, building renewal, construction-phase BIM coordination, and automated cost-evaluation systems. In industry, I have coordinated multidisciplinary BIM workflows, developed Dynamo and C# tools for data processing and automation, and contributed to AI-enabled systems for code review and building-information generation.",
+    "My combined academic and professional background enables me to translate analytical insights and digital methodologies into rigorous, scalable solutions across design, engineering, and building-information management."
+  ],
+  "closing": "When I’m not working, you’ll find me sketching, exploring buildings, or experimenting with new web techniques."
+}

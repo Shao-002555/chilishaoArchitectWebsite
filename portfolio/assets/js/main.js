@@ -13,6 +13,37 @@
   const pageKey = path.replace('.html', '') || 'index';
   const navMap = { index: 'home', about: 'about', projects: 'projects', idea: 'ideas', contact: 'contact' };
   const currentKey = navMap[pageKey] || 'home';
+  const aboutContainer = document.getElementById('about-info');
+  const skillsContainer = document.getElementById('skills-container');
+
+  if (aboutContainer) {
+    // 1. 載入文字內容
+    fetch('data/about.json')
+      .then(res => res.json())
+      .then(data => {
+        const paragraphsHTML = data.paragraphs.map(p => `<p>${p}</p>`).join('');
+        aboutContainer.innerHTML = `
+          <h1>${escapeHTML(data.title)}</h1>
+          ${paragraphsHTML}
+          <p>${escapeHTML(data.closing)}</p>
+        `;
+      })
+      .catch(() => {
+        aboutContainer.innerHTML = '<p>Could not load about information.</p>';
+      });
+
+    // 2. 載入技能 (利用您已有的 skills.json)
+    fetch('data/skills.json')
+      .then(res => res.json())
+      .then(data => {
+        if (skillsContainer) {
+          skillsContainer.innerHTML = data.skills
+            .map(skill => `<li>${escapeHTML(skill)}</li>`)
+            .join('');
+        }
+      });
+  }
+
   document.querySelectorAll('.site-nav a').forEach((a) => {
     const key = a.getAttribute('data-nav');
     if (key === currentKey) a.classList.add('active');
