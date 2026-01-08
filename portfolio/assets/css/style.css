@@ -1,25 +1,39 @@
-/* Global styles */
-html,
-body {
+/* ==========================================================================
+   1. 基礎設定 (Global & Base)
+   ========================================================================== */
+html, body {
   background: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--font-sans);
-  line-height: 1.5; /* 縮小行高，增加緊湊感 */
-  padding-top: 80px; /* 為固定 header 增加 body padding，避免內容被遮住 */
+  line-height: 1.5;
+  padding-top: 80px; /* 補償固定導覽列高度 */
 }
 
 .container {
-  width: min(100% - 3rem, var(--container)); /* 增加邊距 */
+  width: min(100% - 3rem, var(--container));
   margin-inline: auto;
 }
 
+img {
+  /* 禁止選取與拖拽圖片 */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none; /* 物理層面防止點擊 */
+}
+
+/* ==========================================================================
+   2. 佈局結構 (Layout & Sections)
+   ========================================================================== */
 .section {
   padding: var(--space-7) 0;
-  border-bottom: 1px solid var(--color-border); /* 區塊間使用細黑線分隔 */
+  border-bottom: 1px solid var(--color-border);
 }
 
 .section-head {
@@ -28,11 +42,19 @@ body {
   justify-content: space-between;
   gap: var(--space-4);
   margin-bottom: var(--space-6);
-  text-transform: uppercase; /* 標題全大寫 */
+  text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
-/* Header - 固定於頂部且極簡 */
+.two-col {
+  display: grid;
+  gap: var(--space-7);
+  align-items: start;
+}
+
+/* ==========================================================================
+   3. 導覽列 (Site Header & Navigation)
+   ========================================================================== */
 .site-header {
   position: fixed;
   top: 0;
@@ -48,36 +70,38 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) 0;
-
-  .logo {
-    font-weight: 800;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-  }
-
-  .site-nav ul {
-    display: flex;
-    gap: var(--space-6);
-  }
-
-  .site-nav a {
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text);
-    transition: color .2s ease;
-  }
-
-  .site-nav a:hover,
-  .site-nav a.active {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
 }
 
-/* Hero - 大膽的排版 */
+.header-inner .logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.site-nav a {
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ==========================================================================
+   4. 英雄區塊 (Hero Section)
+   ========================================================================== */
 .hero {
   padding: calc(var(--space-8) * 2.5) 0;
   min-height: 90vh;
@@ -99,7 +123,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.086); /* 半透明白色遮罩，讓文字更清晰 */
+  background: rgba(255, 255, 255, 0.086);
   z-index: 0;
 }
 
@@ -109,17 +133,14 @@ body {
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem); /* 這是你目前的設定 */
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.04em;
   text-transform: uppercase;
   margin-bottom: var(--space-5);
-  
-  /* --- 新增或修改以下屬性 --- */
-  white-space: nowrap;      /* 強制不換行 */
-  width: 100%;             /* 確保佔滿寬度 */
-  max-width: none;         /* 移除任何可能的寬度限制 */
+  white-space: nowrap; /* 強制不換行 */
+  width: 100%;
 }
 
 .hero .subtitle {
@@ -135,7 +156,11 @@ body {
   color: var(--color-muted);
 }
 
-/* Buttons - 銳利的工業感 */
+/* ==========================================================================
+   5. 通用元件 (Buttons, Cards, Forms)
+   ========================================================================== */
+
+/* 按鈕樣式 */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -149,7 +174,7 @@ body {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .btn:hover {
@@ -167,11 +192,11 @@ body {
   border-color: var(--color-accent);
 }
 
-/* Grid & Cards - 建築感檔案排列 */
+/* 卡片與網格 */
 .grid {
   display: grid;
-  gap: 1px; /* 使用 1px 線條感 */
-  background: var(--color-border); /* 透過背景色創造網格線 */
+  gap: 1px;
+  background: var(--color-border); /* 透過間隙顯示背景線 */
 }
 
 .cards {
@@ -186,10 +211,10 @@ body {
 }
 
 .card-media {
-  aspect-ratio: 1/1; /* 使用方正的比例 */
+  aspect-ratio: 1/1;
   object-fit: cover;
-  filter: grayscale(100%); /* 預設灰階，符合 OMA 早期簡報風格 */
-  transition: filter .3s ease;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
   margin-bottom: var(--space-4);
 }
 
@@ -208,14 +233,70 @@ body {
   font-size: 0.875rem;
 }
 
-/* Footer */
-.site-footer {
-  padding: var(--space-6) 0;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+/* 表單樣式 */
+.form-field {
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
 }
-/* PDF Modal 樣式 */
+
+.form-field label {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.1em;
+}
+
+.form-field input,
+.form-field textarea {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: 1px solid var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.field-error {
+  color: #ff0000;
+  font-size: 0.75rem;
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   6. 專屬分頁樣式 (Contact & PDF Viewer)
+   ========================================================================== */
+
+/* 聯繫頁面 */
+.two-col.contact {
+  grid-template-columns: 2fr 1fr;
+}
+
+.social-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.social-list a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.social-list a:hover {
+  color: var(--color-accent);
+}
+
+/* PDF Modal 與 Viewer */
 .pdf-modal {
   position: fixed;
   top: 0;
@@ -232,7 +313,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9); /* 深色遮罩 */
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .modal-content {
@@ -263,13 +344,19 @@ body {
   overflow-y: auto;
   text-align: center;
   padding: var(--space-4);
-  background: #222; /* 內部深色背景突顯 PDF */
+  background: #222;
+}
+
+.pdf-frame {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
 }
 
 #pdf-canvas {
   max-width: 100%;
   height: auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .pdf-controls {
@@ -282,9 +369,31 @@ body {
   font-family: var(--font-mono);
   font-weight: bold;
 }
-/* 響應式調整 */
+
+/* ==========================================================================
+   7. 安全防護與列印設定
+   ========================================================================== */
+@media print {
+  body {
+    display: none !important; /* 防止 Ctrl+P 列印轉存 */
+  }
+}
+
+/* ==========================================================================
+   8. 響應式調整 (Responsive)
+   ========================================================================== */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 3.5rem;
+    white-space: normal; /* 手機版允許換行以防溢出 */
+  }
+
+  .two-col.contact {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
   }
 }

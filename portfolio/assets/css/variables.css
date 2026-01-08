@@ -4,7 +4,7 @@
   --color-surface: #ffffff;
   --color-text: #000000;    /* 純黑文字 */
   --color-muted: #666666;   /* 灰感文字 */
-  --color-accent: #0000ff;  /* OMA 藍 (標誌性的強調色) */
+  --color-accent: #d6b210;  /* OMA 藍 (標誌性的強調色) */
   --color-primary: #000000; /* 主要按鈕色 */
   --color-border: #000000;  /* 強調線條感的黑色邊框 */
 
@@ -34,7 +34,7 @@
     --color-surface: #000000;
     --color-text: #ffffff;
     --color-muted: #999999;
-    --color-accent: #0000ff;
+    --color-accent: #d6b210;
     --color-primary: #ffffff;
     --color-border: #ffffff;
   }

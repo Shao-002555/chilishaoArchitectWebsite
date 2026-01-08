@@ -1,19 +1,36 @@
-// main.js - 效能優化版
+/**
+ * main.js - 作品集網站主程式
+ * 負責動態載入和渲染各頁面內容
+ */
 
 (function () {
-  // 1. 快取 DOM 節點，避免重複選取
-  const yearEl = document.getElementById("year");
-  const aboutContainer = document.getElementById("about-info");
-  const skillsContainer = document.getElementById("skills-container");
-  const featuredGrid = document.getElementById("featured-projects");
-  const projectsGrid = document.getElementById("projects-grid");
-  const ideasRibbon = document.getElementById("ideas-ribbon");
+  "use strict";
 
-  // 設定頁腳年份
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  // ========================================
+  // DOM 元素快取
+  // ========================================
+  const DOM = {
+    yearEl: document.getElementById("year"),
+    aboutContainer: document.getElementById("about-info"),
+    skillsContainer: document.getElementById("skills-container"),
+    featuredGrid: document.getElementById("featured-projects"),
+    projectsGrid: document.getElementById("projects-grid"),
+    ideasRibbon: document.getElementById("ideas-ribbon"),
+    pdfIframe: document.getElementById("pdf-iframe"),
+    docTitle: document.getElementById("current-doc-title"),
+    docDesc: document.getElementById("current-doc-desc"),
+    prevDocBtn: document.getElementById("prev-doc"),
+    nextDocBtn: document.getElementById("next-doc"),
+  };
+
+  // ========================================
+  // 工具函式
+  // ========================================
 
   /**
-   * 輔助函式：逸出 HTML 特殊字元 (防止 XSS)
+   * 逸出 HTML 特殊字元以防止 XSS 攻擊
+   * @param {string} str - 要逸出的字串
+   * @returns {string} 安全的 HTML 字串
    */
   function escapeHTML(str) {
     if (!str) return "";
@@ -26,22 +43,63 @@
   }
 
   /**
-   * 生成專案卡片 HTML
+   * 非同步載入 JSON 資料
+   * @param {string} url - JSON 檔案路徑
+   * @returns {Promise<Object>} JSON 資料
    */
-  function cardHTML(p, withActions = false) {
-    const img = p.image || "assets/images/project1.jpg";
-    const link = p.link || "#";
-    const safeTitle = escapeHTML(p.title);
-    const safeDesc = escapeHTML(p.description);
+  async function loadJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Error loading ${url}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * 顯示錯誤訊息
+   * @param {HTMLElement} element - 要顯示錯誤的元素
+   * @param {string} message - 錯誤訊息
+   */
+  function showError(element, message) {
+    if (element) {
+      element.innerHTML = `<p class="error-message">${escapeHTML(message)}</p>`;
+    }
+  }
+
+  // ========================================
+  // HTML 模板生成器
+  // ========================================
+
+  /**
+   * 生成專案卡片 HTML
+   * @param {Object} project - 專案資料
+   * @param {boolean} withActions - 是否包含操作按鈕
+   * @returns {string} 卡片 HTML
+   */
+  function createProjectCard(project, withActions = false) {
+    const img = project.image || "assets/images/project1.jpg";
+    const link = project.link || "#";
+    const title = escapeHTML(project.title);
+    const description = escapeHTML(project.description);
+
     return `
       <article class="card">
-        <img class="card-media" src="${img}" alt="${safeTitle}" loading="lazy" />
+        <img class="card-media" src="${img}" alt="${title}" loading="lazy" />
         <div class="card-body">
-          <h3>${safeTitle}</h3>
-          <p>${safeDesc}</p>
+          <h3>${title}</h3>
+          <p>${description}</p>
           ${
             withActions
-              ? `<div class="card-actions"><a class="btn" href="${link}" target="_blank" rel="noopener">View Project</a></div>`
+              ? `
+            <div class="card-actions">
+              <a class="btn" href="${link}" target="_blank" rel="noopener">View Project</a>
+            </div>
+          `
               : ""
           }
         </div>
@@ -51,106 +109,258 @@
 
   /**
    * 生成 Idea 卡片 HTML
+   * @param {Object} idea - Idea 資料
+   * @returns {string} 卡片 HTML
    */
-  function ideaCardHTML(i) {
-    const img = i.image || "assets/images/project1.jpg";
-    const safeTitle = escapeHTML(i.title);
-    const safeExcerpt = escapeHTML(i.excerpt);
-    const date = i.date
-      ? `<small class="muted">${escapeHTML(i.date)}</small>`
+  function createIdeaCard(idea) {
+    const img = idea.image || "assets/images/project1.jpg";
+    const title = escapeHTML(idea.title);
+    const excerpt = escapeHTML(idea.excerpt);
+    const date = idea.date
+      ? `<small class="muted">${escapeHTML(idea.date)}</small>`
       : "";
+
     return `
       <article class="card ribbon-card">
-        <img class="card-media" src="${img}" alt="${safeTitle}" loading="lazy" />
+        <img class="card-media" src="${img}" alt="${title}" loading="lazy" />
         <div class="card-body">
-          <h3>${safeTitle}</h3>
+          <h3>${title}</h3>
           ${date}
-          <p>${safeExcerpt}</p>
+          <p>${excerpt}</p>
         </div>
       </article>
     `;
   }
 
-  // --- 初始化各頁面邏輯 ---
+  // ========================================
+  // 頁面初始化函式
+  // ========================================
 
-  // 關於頁面 (About & Skills)
-  if (aboutContainer || skillsContainer) {
-    // 使用 Promise.all 同時載入兩個 JSON，減少等待時間
-    Promise.all([
-      fetch("data/about.json").then((res) => res.json()),
-      fetch("data/skills.json").then((res) => res.json()),
-    ])
-      .then(([aboutData, skillsData]) => {
-        if (aboutContainer) {
-          const paragraphsHTML = aboutData.paragraphs
-            .map((p) => `<p>${p}</p>`)
-            .join("");
-          aboutContainer.innerHTML = `
+  /**
+   * 初始化年份顯示
+   */
+  function initYear() {
+    if (DOM.yearEl) {
+      DOM.yearEl.textContent = new Date().getFullYear();
+    }
+  }
+
+  /**
+   * 初始化關於頁面（About & Skills）
+   */
+  async function initAboutPage() {
+    if (!DOM.aboutContainer && !DOM.skillsContainer) return;
+
+    try {
+      const [aboutData, skillsData] = await Promise.all([
+        loadJSON("data/about.json"),
+        loadJSON("data/skills.json"),
+      ]);
+
+      // 渲染 About 內容
+      if (DOM.aboutContainer) {
+        const paragraphsHTML = aboutData.paragraphs
+          .map((p) => `<p>${escapeHTML(p)}</p>`)
+          .join("");
+
+        DOM.aboutContainer.innerHTML = `
           <h1>${escapeHTML(aboutData.title)}</h1>
           ${paragraphsHTML}
-          <p>${aboutData.closing ? escapeHTML(aboutData.closing) : ""}</p>
+          ${aboutData.closing ? `<p>${escapeHTML(aboutData.closing)}</p>` : ""}
         `;
-        }
-        if (skillsContainer && skillsData.skills) {
-          skillsContainer.innerHTML = skillsData.skills
-            .map((skill) => `<li>${escapeHTML(skill)}</li>`)
-            .join("");
-        }
-      })
-      .catch((err) => console.error("Could not load about/skills info:", err));
+      }
+
+      // 渲染 Skills 內容
+      if (DOM.skillsContainer && skillsData.skills) {
+        DOM.skillsContainer.innerHTML = skillsData.skills
+          .map((skill) => `<li>${escapeHTML(skill)}</li>`)
+          .join("");
+      }
+    } catch (error) {
+      console.error("Failed to load about/skills:", error);
+      showError(DOM.aboutContainer, "Could not load about information.");
+      showError(DOM.skillsContainer, "Could not load skills information.");
+    }
   }
 
-  // 專案列表 (首頁與專案頁)
-  if (featuredGrid || projectsGrid) {
-    fetch("data/projects.json")
-      .then((res) => res.json())
-      .then((projects) => {
-        if (featuredGrid) {
-          // 首頁僅顯示前 3 個
-          featuredGrid.innerHTML = projects
-            .slice(0, 3)
-            .map((p) => cardHTML(p))
-            .join("");
-        }
-        if (projectsGrid) {
-          // 專案頁顯示全部
-          projectsGrid.innerHTML =
-            projects.length > 0
-              ? projects.map((p) => cardHTML(p, true)).join("")
-              : "<p>No projects available yet.</p>";
+  /**
+   * 初始化專案頁面（Featured & All Projects）
+   */
+  async function initProjectsPage() {
+    if (!DOM.featuredGrid && !DOM.projectsGrid) return;
+
+    try {
+      const projects = await loadJSON("data/projects.json");
+
+      // 渲染精選專案（首頁）
+      if (DOM.featuredGrid) {
+        const featuredProjects = projects.slice(0, 3);
+        DOM.featuredGrid.innerHTML = featuredProjects
+          .map((p) => createProjectCard(p))
+          .join("");
+      }
+
+      // 渲染所有專案（專案頁）
+      if (DOM.projectsGrid) {
+        DOM.projectsGrid.innerHTML =
+          projects.length > 0
+            ? projects.map((p) => createProjectCard(p, true)).join("")
+            : "<p>No projects available yet.</p>";
+      }
+    } catch (error) {
+      console.error("Failed to load projects:", error);
+      showError(DOM.featuredGrid, "Error loading projects.");
+      showError(DOM.projectsGrid, "Error loading projects.");
+    }
+  }
+
+  /**
+   * 初始化出版物頁面（PDF Viewer）
+   */
+  function initPublicationsPage() {
+    // 檢查必要的 DOM 元素是否存在
+    if (!DOM.pdfIframe) return;
+
+    let publicationsData = [];
+    let currentIndex = 0;
+
+    /**
+     * 更新 PDF 檢視器內容
+     * 加入參數以隱藏工具列與邊欄
+     */
+    function updateViewer(index) {
+      if (publicationsData.length === 0 || !publicationsData[index]) return;
+
+      const doc = publicationsData[index];
+      DOM.docTitle.textContent = doc.title;
+      DOM.docDesc.textContent = doc.description;
+
+      /* 重點修改：加入 PDF 參數
+       #toolbar=0 : 隱藏頂部工具列 (下載、列印按鈕通常在此)
+       #navpanes=0: 隱藏左側導覽面板
+       #scrollbar=1: 保留捲軸以供閱讀
+    */
+      DOM.pdfIframe.src = `${doc.docs}#toolbar=0&navpanes=0&scrollbar=1`;
+
+      currentIndex = index;
+
+      // 更新按鈕狀態
+      if (DOM.prevDocBtn) DOM.prevDocBtn.disabled = currentIndex === 0;
+      if (DOM.nextDocBtn)
+        DOM.nextDocBtn.disabled = currentIndex === publicationsData.length - 1;
+    }
+
+    function navigatePrevious() {
+      if (currentIndex > 0) updateViewer(currentIndex - 1);
+    }
+
+    function navigateNext() {
+      if (currentIndex < publicationsData.length - 1)
+        updateViewer(currentIndex + 1);
+    }
+
+    // 載入出版物資料
+    loadJSON("data/publications.json")
+      .then((data) => {
+        publicationsData = data;
+        if (publicationsData.length > 0) {
+          updateViewer(0);
         }
       })
-      .catch((err) => {
-        if (featuredGrid)
-          featuredGrid.innerHTML = "<p>Error loading projects.</p>";
-        if (projectsGrid)
-          projectsGrid.innerHTML = "<p>Error loading projects.</p>";
+      .catch((error) => {
+        console.error("Failed to load publications:", error);
+        if (DOM.docDesc) DOM.docDesc.textContent = "無法載入文件列表。";
       });
+
+    // 綁定事件
+    DOM.prevDocBtn?.addEventListener("click", navigatePrevious);
+    DOM.nextDocBtn?.addEventListener("click", navigateNext);
+
+    // 額外安全措施：禁止在 iframe 區域點擊右鍵
+    DOM.pdfIframe.addEventListener("contextmenu", (e) => e.preventDefault());
+  }
+  /**
+   * 禁止全網頁右鍵選單
+   */
+  document.addEventListener(
+    "contextmenu",
+    (e) => {
+      e.preventDefault();
+    },
+    false
+  );
+
+  // 額外禁止特定快捷鍵 (如 F12, Ctrl+Shift+I, Ctrl+U)
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && e.key === "I") ||
+      (e.ctrlKey && e.key === "u") ||
+      (e.ctrlKey && e.key === "s") // 禁止 Ctrl+S 存檔
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  /**
+   * 初始化 Ideas 頁面
+   */
+  async function initIdeasPage() {
+    if (!DOM.ideasRibbon) return;
+
+    try {
+      const ideas = await loadJSON("data/ideas.json");
+      DOM.ideasRibbon.innerHTML =
+        ideas.length > 0
+          ? ideas.map((idea) => createIdeaCard(idea)).join("")
+          : "<p>No posts yet.</p>";
+    } catch (error) {
+      console.error("Failed to load ideas:", error);
+      showError(DOM.ideasRibbon, "Could not load ideas.");
+    }
   }
 
-  // Ideas 頁面
-  if (ideasRibbon) {
-    fetch("data/ideas.json")
-      .then((res) => res.json())
-      .then((ideas) => {
-        ideasRibbon.innerHTML =
-          ideas.length > 0
-            ? ideas.map((i) => ideaCardHTML(i)).join("")
-            : "<p>No posts yet.</p>";
-      })
-      .catch(() => (ideasRibbon.innerHTML = "<p>Could not load ideas.</p>"));
+  /**
+   * 初始化 Ribbon 捲動控制
+   */
+  function initRibbonScrollControls() {
+    if (!DOM.ideasRibbon) return;
 
-    // Ribbon 捲動控制事件代理
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".ribbon-nav");
+    document.addEventListener("click", (event) => {
+      const btn = event.target.closest(".ribbon-nav");
       if (!btn) return;
+
       const target = document.querySelector(btn.dataset.target);
       if (!target) return;
-      const dir = btn.classList.contains("prev") ? -1 : 1;
+
+      const direction = btn.classList.contains("prev") ? -1 : 1;
       target.scrollBy({
-        left: target.clientWidth * 0.8 * dir,
+        left: target.clientWidth * 0.8 * direction,
         behavior: "smooth",
       });
     });
+  }
+
+  // ========================================
+  // 主程式初始化
+  // ========================================
+
+  /**
+   * 應用程式初始化
+   */
+  function init() {
+    initYear();
+    initAboutPage();
+    initProjectsPage();
+    initPublicationsPage();
+    initIdeasPage();
+    initRibbonScrollControls();
+  }
+
+  // DOM 載入完成後執行初始化
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 })();

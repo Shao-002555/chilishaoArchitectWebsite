@@ -1,115 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact | Portfolio</title>
-    <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="assets/css/reset.css" />
-    <link rel="stylesheet" href="assets/css/variables.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Portfolio</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="assets/css/reset.css" />
+  <link rel="stylesheet" href="assets/css/variables.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
 <body>
-    <div id="navbar-placeholder"></div>
+  <div id="navbar-placeholder"></div>
 
-    <script>
-        fetch('navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-placeholder').innerHTML = data;
-                
-                // (選填) 自動標記當前頁面為 "active" 狀態的邏輯
-                highlightCurrentPage();
-            });
+  <main id="main" class="site-main">
+    <section class="section">
+      <div class="container two-col contact">
+        <article class="contact-form-wrapper">
+          <h1>Contact</h1>
+          <p class="lede">
+            Have a project in mind or want to say hello? Send a message below.
+          </p>
 
-        function highlightCurrentPage() {
-            const path = window.location.pathname.split("/").pop();
-            const links = document.querySelectorAll('#navbar-placeholder a');
-            links.forEach(link => {
-                if (link.getAttribute('href') === path) {
-                    link.classList.add('active'); // 你可以在 CSS 定義 .active 的樣式
-                }
-            });
-        }
-    </script>
-</body>
+          <form id="contact-form" novalidate>
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your Name" required />
+              <p class="field-error" id="error-name" role="alert" aria-live="polite"></p>
+            </div>
 
-    <main id="main" class="site-main">
-      <section class="section">
-        <div class="container two-col contact">
-          <article>
-            <h1>Contact</h1>
-            <p>
-              Have a project in mind or want to say hello? Send a message
-              below. No backend here — it validates in the browser only.
-            </p>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="email@example.com" required />
+              <p class="field-error" id="error-email" role="alert" aria-live="polite"></p>
+            </div>
 
-            <form id="contact-form" novalidate>
-              <div class="form-field">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" required />
-                <p class="field-error" id="error-name" role="alert" aria-live="polite"></p>
-              </div>
+            <div class="form-field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" placeholder="How can I help you?" required></textarea>
+              <p class="field-error" id="error-message" role="alert" aria-live="polite"></p>
+            </div>
 
-              <div class="form-field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" required />
-                <p class="field-error" id="error-email" role="alert" aria-live="polite"></p>
-              </div>
+            <button class="btn primary" type="submit">Send Message</button>
+            <p class="form-status" id="form-status" aria-live="polite"></p>
+          </form>
+        </article>
 
-              <div class="form-field">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="6" required></textarea>
-                <p class="field-error" id="error-message" role="alert" aria-live="polite"></p>
-              </div>
-
-              <button class="btn primary" type="submit">Send Message</button>
-              <p class="form-status" id="form-status" aria-live="polite"></p>
-            </form>
-          </article>
-
-          <aside>
-            <h2>Connect</h2>
-            <ul class="social-list">
-              <li>
-                <a href="#" target="_blank" rel="noopener">
-                  <i data-lucide="linkedin"></i> LinkedIn
-                </a>
-              </li>
-              <li>
-                <a href="#" target="_blank" rel="noopener">
-                  <i data-lucide="instagram"></i> Instagram
-                </a>
-              </li>
-              <li>
-                <a href="#" target="_blank" rel="noopener">
-                  <i data-lucide="twitter"></i> Twitter
-                </a>
-              </li>
-              <li>
-                <a href="mailto:your@email.com">
-                  <i data-lucide="mail"></i> Email
-                </a>
-              </li>
-            </ul>
-          </aside>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+        <aside class="contact-social">
+          <h2>Connect</h2>
+          <ul class="social-list">
+            <li>
+              <a href="www.linkedin.com/in/chilishao12a69a16a" target="_blank" rel="noopener">
+                <i data-lucide="linkedin"></i> LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/csarchi2025/" target="_blank" rel="noopener">
+                <i data-lucide="instagram"></i> Instagram
+              </a>
+            </li>
+            <li>
+              <a href="mailto:smpss91072@gmail.com">
+                <i data-lucide="mail"></i> Email
+              </a>
+            </li>
+          </ul>
+        </aside>
       </div>
-    </footer>
+    </section>
+  </main>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/scroll.js"></script>
-    <script src="assets/js/form.js"></script>
-    <script>
-      lucide.createIcons();
-    </script>
-  </body>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/scroll.js"></script>
+  <script src="assets/js/form.js"></script>
+  <script>
+    // 載入導航列
+    fetch('navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar-placeholder').innerHTML = data;
+        highlightCurrentPage();
+        lucide.createIcons(); // 確保圖標在導航列載入後生成
+      });
+
+    function highlightCurrentPage() {
+      const path = window.location.pathname.split("/").pop() || 'index.html';
+      const links = document.querySelectorAll('#navbar-placeholder a');
+      links.forEach(link => {
+        if (link.getAttribute('href') === path) {
+          link.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
 </html>

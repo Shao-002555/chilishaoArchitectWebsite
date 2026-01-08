@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Application Portfolio",
+    "description": "My Personal Portfolio for Application of Architecture Master Degree.",
+    "docs": "assets/docs/PortfolioA3.pdf",
+    "link": "#"
+  },
+  {
+    "title": "The Evolution of Transport and Urban Growth in Hsinchu Science Park",
+    "description": "Exploration of space syntax and Urban Growth.",
+    "docs": "assets/docs/UBPlaning.pdf",
+    "link": "#"
+  }
+]
