@@ -1,81 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Portfolio</title>
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | Portfolio</title>
-  <link rel="stylesheet" href="assets/css/reset.css" />
-  <link rel="stylesheet" href="assets/css/variables.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
+  <body>
+    <body>
+      <div id="navbar-placeholder"></div>
 
-<body>
-<body>
-    <div id="navbar-placeholder"></div>
+      <script>
+        fetch("navbar.html")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("navbar-placeholder").innerHTML = data;
 
-    <script>
-        fetch('navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-placeholder').innerHTML = data;
-                
-                // (選填) 自動標記當前頁面為 "active" 狀態的邏輯
-                highlightCurrentPage();
-            });
+            // (選填) 自動標記當前頁面為 "active" 狀態的邏輯
+            highlightCurrentPage();
+          });
 
         function highlightCurrentPage() {
-            const path = window.location.pathname.split("/").pop();
-            const links = document.querySelectorAll('#navbar-placeholder a');
-            links.forEach(link => {
-                if (link.getAttribute('href') === path) {
-                    link.classList.add('active'); // 你可以在 CSS 定義 .active 的樣式
-                }
-            });
+          const path = window.location.pathname.split("/").pop();
+          const links = document.querySelectorAll("#navbar-placeholder a");
+          links.forEach((link) => {
+            if (link.getAttribute("href") === path) {
+              link.classList.add("active"); // 你可以在 CSS 定義 .active 的樣式
+            }
+          });
         }
-    </script>
-</body>
+      </script>
+    </body>
 
-  <main id="main" class="site-main">
-    <section class="hero" id="hero">
+    <main id="main" class="site-main">
+      <section class="hero" id="hero">
+        <div class="container">
+          <h1>Hello, Here is <span class="accent">CHILI'S SPACE</span></h1>
+          <p class="subtitle">Architect</p>
+          <p class="lede">
+            Here is some personal idea about how architecture can be.
+          </p>
+          <div class="hero-cta">
+            <a class="btn primary" href="projects.html">View Projects</a>
+            <a class="btn" href="contact.html">Get in Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="featured">
+        <div class="container">
+          <div class="section-head">
+            <h2>Featured Projects</h2>
+            <a class="link" href="projects.html">See all</a>
+          </div>
+          <div id="featured-projects" class="grid cards" aria-live="polite">
+            <noscript>
+              <p>Enable JavaScript to see featured projects.</p>
+            </noscript>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
       <div class="container">
-        <h1>Hello, Here is <span class="accent">CHILI'S SPACE</span></h1>
-        <p class="subtitle">Architect</p>
-        <p class="lede">
-          Here is some personal idea about how architecture can be.
-        </p>
-        <div class="hero-cta">
-          <a class="btn primary" href="projects.html">View Projects</a>
-          <a class="btn" href="contact.html">Get in Touch</a>
-        </div>
+        <p>© <span id="year"></span> Your Name. All rights reserved.</p>
       </div>
-    </section>
+    </footer>
 
-    <section class="section" id="featured">
-      <div class="container">
-        <div class="section-head">
-          <h2>Featured Projects</h2>
-          <a class="link" href="projects.html">See all</a>
-        </div>
-        <div id="featured-projects" class="grid cards" aria-live="polite">
-          <noscript>
-            <p>Enable JavaScript to see featured projects.</p>
-          </noscript>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/scroll.js"></script>
-  <script src="assets/js/home.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-</body>
-
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/scroll.js"></script>
+    <script src="assets/js/home.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </body>
 </html>

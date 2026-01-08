@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PDF Viewer | Portfolio</title>
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      /* 閱讀器專屬樣式 */
+      #pdf-main-container {
+        width: 100%;
+        text-align: center;
+        background: #333;
+        padding: 20px 0;
+      }
+      #pdf-contents {
+        display: inline-block;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+      #pdf-canvas {
+        width: 100%;
+        max-width: 100%;
+      }
+      .pdf-controls {
+        position: sticky;
+        bottom: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 10px;
+      }
+      .pdf-controls button {
+        color: white;
+        border: 1px solid white;
+        margin: 0 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="site-main">
+      <section class="section">
+        <div class="container">
+          <div id="pdf-main-container">
+            <div id="pdf-contents">
+              <canvas id="pdf-canvas"></canvas>
+              <div class="pdf-controls">
+                <button id="pdf-prev">Last</button>
+                <span id="pdf-current-page">0</span> /
+                <span id="pdf-total-pages">0</span>
+                <button id="pdf-next">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="assets/js/pdf-viewer.js"></script>
+    <script>
+      // 載入導覽列
+      fetch("navbar.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>
