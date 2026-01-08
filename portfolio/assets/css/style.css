@@ -109,12 +109,17 @@ body {
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem); /* 極大的標題 */
+  font-size: clamp(3rem, 8vw, 6rem); /* 這是你目前的設定 */
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.04em;
   text-transform: uppercase;
   margin-bottom: var(--space-5);
+  
+  /* --- 新增或修改以下屬性 --- */
+  white-space: nowrap;      /* 強制不換行 */
+  width: 100%;             /* 確保佔滿寬度 */
+  max-width: none;         /* 移除任何可能的寬度限制 */
 }
 
 .hero .subtitle {
@@ -125,7 +130,7 @@ body {
 }
 
 .hero .lede {
-  max-width: 45ch;
+  max-width: 90ch;
   font-size: 1.25rem;
   color: var(--color-muted);
 }
