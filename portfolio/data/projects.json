@@ -1,39 +1,50 @@
 [
   {
-    "title": "Project 01",
+    "title": "Fable of the Community",
     "description": "Architecture design project showcasing innovative spatial solutions.",
     "image": "assets/images/ProjectImage/Project_01.jpg",
     "link": "#"
   },
   {
-    "title": "Project 02",
+    "title": "Read-In-Between",
     "description": "Contemporary design with emphasis on functionality and aesthetics.",
     "image": "assets/images/ProjectImage/Project_02.jpg",
     "link": "#"
   },
   {
-    "title": "Project 03",
+    "title": "Project Post Pompidu",
     "description": "Urban planning project integrating sustainable design principles.",
     "image": "assets/images/ProjectImage/Project_03.jpg",
     "link": "#"
   },
   {
-    "title": "Project 04",
+    "title": "Running on the Memory",
     "description": "Residential architecture blending modern and traditional elements.",
     "image": "assets/images/ProjectImage/Project_04.jpg",
     "link": "#"
   },
   {
-    "title": "Project 05",
+    "title": "Working Palace",
     "description": "Commercial space design optimizing user experience and flow.",
     "image": "assets/images/ProjectImage/Project_05.jpg",
     "link": "#"
   },
   {
-    "title": "Project 06",
+    "title": "Rapid City",
     "description": "Innovative structural design showcasing creative problem-solving.",
     "image": "assets/images/ProjectImage/Project_06.jpg",
     "link": "#"
+  },
+  {
+    "title": "Cost-Gen",
+    "description": "Innovative structural design showcasing creative problem-solving.",
+    "image": "assets/images/ProjectImage/Project_07.jpg",
+    "link": "#"
+  },
+  {
+    "title": "Space Syntax Analysis",
+    "description": "Innovative structural design showcasing creative problem-solving.",
+    "image": "assets/images/ProjectImage/Project_08.jpg",
+    "link": "#"
   }
 ]
-
