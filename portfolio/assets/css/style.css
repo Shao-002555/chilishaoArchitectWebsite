@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-TimesNewRoman), serif;
   line-height: 1.5;
   padding-top: 80px; /* 補償固定導覽列高度 */
 }

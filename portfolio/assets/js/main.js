@@ -88,7 +88,8 @@
   function createProjectCard(project, withActions = false) {
     const img = project.image || "assets/images/project1.jpg";
     // 如果有 link 屬性則使用，否則如果 id 存在則自動生成詳情頁連結
-    const link = project.link || (project.id ? `project-detail.html?id=${project.id}` : "#");
+    const link =
+      project.link || (project.id ? `project-detail.html?id=${project.id}` : "#");
     const title = escapeHTML(project.title);
     const description = escapeHTML(project.description);
 
@@ -215,7 +216,8 @@
       if (DOM.projectsGrid) {
         DOM.projectsGrid.innerHTML =
           projects.length > 0
-            ? projects.map((p) => createProjectCard(p, true)).join("")
+            // UPDATE: 修改此處為 false，不再顯示 "View Project" 按鈕
+            ? projects.map((p) => createProjectCard(p, false)).join("")
             : "<p>No projects available yet.</p>";
       }
     } catch (error) {
