@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Detail | Portfolio</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <main class="site-main">
+    <section class="section">
+      <div class="container" id="project-content">
+        <div class="skeleton-loader">Loading Project...</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    // 載入導覽列
+    fetch('navbar.html')
+      .then(res => res.text())
+      .then(data => document.getElementById('navbar-placeholder').innerHTML = data);
+  </script>
+</body>
+</html>
