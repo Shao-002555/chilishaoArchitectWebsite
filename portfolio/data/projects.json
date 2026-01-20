@@ -12,8 +12,10 @@
     ],
     "image": "assets/images/ProjectImage/Project_01.jpg",
     "gallery": [
-      "assets/images/ProjectImage/Project_02.jpg",
-      "assets/images/ProjectImage/Project_03.jpg"
+      "assets/images/ProjectImage/Project_01_01.jpg",
+      "assets/images/ProjectImage/Project_01_02.jpg",
+      "assets/images/ProjectImage/Project_01_03.jpg",
+      "assets/images/ProjectImage/Project_01_04.jpg"
     ],
     "link": "project-detail.html?id=01"
   },
