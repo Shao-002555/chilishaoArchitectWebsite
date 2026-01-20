@@ -101,15 +101,14 @@
         <div class="card-body">
           <h3><a href="${link}">${title}</a></h3>
           <p>${description}</p>
-          ${
-            withActions
-              ? `
+          ${withActions
+        ? `
             <div class="card-actions">
               <a class="btn" href="${link}">View Project</a>
             </div>
           `
-              : ""
-          }
+        : ""
+      }
         </div>
       </article>
     `;
@@ -174,10 +173,9 @@
         DOM.aboutContainer.innerHTML = `
           <h1>${escapeHTML(aboutData.title)}</h1>
           ${paragraphsHTML}
-          ${
-            aboutData.closing
-              ? `<p>${escapeHTML(aboutData.closing)}</p>`
-              : ""
+          ${aboutData.closing
+            ? `<p>${escapeHTML(aboutData.closing)}</p>`
+            : ""
           }
         `;
       }
@@ -247,7 +245,7 @@
     try {
       // 2. 載入資料
       const projects = await loadJSON("data/projects.json");
-      
+
       // 3. 尋找對應的專案 (確保型別一致，轉為 String 比對)
       const project = projects.find(p => String(p.id) === projectId);
 
@@ -262,13 +260,16 @@
         ? project.details.map(text => `<p class="lede" style="margin-bottom: 1.5rem;">${escapeHTML(text)}</p>`).join("")
         : `<p>${escapeHTML(project.description)}</p>`;
 
-      // 處理畫廊圖片
+      // 處理畫廊圖片：使用 detail-media-group 確保文字與圖片等寬
       const galleryHTML = project.gallery
-        ? `<div class="project-gallery grid cards" style="margin-top: var(--space-7);">
+        ? `<div class="project-gallery" style="margin-top: var(--space-7); display: flex; flex-direction: column; align-items: center; gap: var(--space-8);">
             ${project.gallery.map(img => `
-              <div class="card" style="padding:0; border:none;">
-                <img src="${img}" class="card-media" loading="lazy" alt="Gallery Image" style="width:100%; height:auto; display:block;">
-              </div>
+              <figure class="detail-media-group" style="width: fit-content; max-width: 100%; margin: 0 auto;">
+                <img src="${img}" class="detail-image" loading="lazy" alt="Gallery Image" style="display: block; width: 100%; height: auto; pointer-events: auto;">
+                <figcaption class="detail-description" style="width: 100%; padding: var(--space-3) 0; font-size: 0.9rem; color: var(--color-muted); line-height: 1.6; text-align: justify;">
+                  這裡可以輸入該截圖的說明文字。現在這段文字的寬度會自動限制在圖片的範圍內，不會超出圖片邊界。
+                </figcaption>
+              </figure>
             `).join("")}
            </div>`
         : "";
@@ -284,11 +285,11 @@
             </div>
           </header>
 
-          <figure class="hero-image-container" style="margin-bottom: var(--space-6);">
+          <figure class="hero-image-container" style="margin-bottom: var(--space-6); max-width: 1200px; margin-left: auto; margin-right: auto;">
             <img src="${project.image}" alt="${escapeHTML(project.title)}" class="hero-image" style="width:100%; height:auto; object-fit: cover; max-height: 80vh;">
           </figure>
 
-          <div class="content-body" style="max-width: 70ch; margin: 0 auto;">
+          <div class="content-body" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4);">
             ${detailsHTML}
           </div>
 
@@ -305,7 +306,6 @@
       showError(DOM.projectContent, "Error loading project details.");
     }
   }
-
   /**
    * 初始化出版物頁面（PDF Viewer）
    */
