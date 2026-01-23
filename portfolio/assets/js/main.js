@@ -227,7 +227,7 @@
 
   /**
    * 初始化單一專案詳情頁面 (Project Detail Page)
-   * 邏輯：解析 URL 參數 ?id=XX，並渲染對應內容
+   * 邏輯：解析 URL 參數 ?id=XX，並渲染對應內容（使用 Carousel）
    */
   async function initProjectDetailPage() {
     // 如果頁面上沒有專案容器，代表不在詳情頁，直接離開
@@ -254,27 +254,63 @@
         return;
       }
 
-      // 4. 生成 HTML 內容
-      // 處理多段落內文
+      // 4. 合併圖片：將封面圖和畫廊合併為一個陣列
+      let allImages = [];
+      
+      // 添加封面圖（如果存在且非空）
+      if (project.image && project.image.trim()) {
+        allImages.push(project.image);
+      }
+      
+      // 添加畫廊圖片（如果存在）並去除重複
+      if (project.gallery && Array.isArray(project.gallery)) {
+        const uniqueGalleryImages = project.gallery.filter(img => 
+          img && img.trim() && !allImages.includes(img)
+        );
+        allImages = allImages.concat(uniqueGalleryImages);
+      }
+
+      // 5. 生成詳細描述內容
       const detailsHTML = project.details
         ? project.details.map(text => `<p class="lede" style="margin-bottom: 1.5rem;">${escapeHTML(text)}</p>`).join("")
         : `<p>${escapeHTML(project.description)}</p>`;
 
-      // 處理畫廊圖片：使用 detail-media-group 確保文字與圖片等寬
-      const galleryHTML = project.gallery
-        ? `<div class="project-gallery" style="margin-top: var(--space-7); display: flex; flex-direction: column; align-items: center; gap: var(--space-8);">
-            ${project.gallery.map(img => `
-              <figure class="detail-media-group" style="width: fit-content; max-width: 100%; margin: 0 auto;">
-                <img src="${img}" class="detail-image" loading="lazy" alt="Gallery Image" style="display: block; width: 100%; height: auto; pointer-events: auto;">
-                <figcaption class="detail-description" style="width: 100%; padding: var(--space-3) 0; font-size: 0.9rem; color: var(--color-muted); line-height: 1.6; text-align: justify;">
-                  這裡可以輸入該截圖的說明文字。現在這段文字的寬度會自動限制在圖片的範圍內，不會超出圖片邊界。
-                </figcaption>
-              </figure>
-            `).join("")}
-           </div>`
-        : "";
+      // 6. 生成 Carousel HTML
+      let carouselHTML = '';
+      if (allImages.length > 0) {
+        const slidesHTML = allImages.map(img => `
+          <div class="carousel-slide">
+            <img src="${img}" alt="Project Image" loading="lazy" />
+          </div>
+        `).join('');
+        
+        const indicatorsHTML = allImages.length > 1 
+          ? allImages.map((_, index) => `
+            <button class="carousel-indicator ${index === 0 ? 'active' : ''}" data-slide="${index}"></button>
+          `).join('')
+          : '';
+          
+        const buttonsHTML = allImages.length > 1 
+          ? `
+            <button class="carousel-btn prev" data-dir="prev">‹</button>
+            <button class="carousel-btn next" data-dir="next">›</button>
+          `
+          : '';
 
-      // 組合最終 HTML
+        carouselHTML = `
+          <div class="carousel-container">
+            <div class="carousel-track" style="transform: translateX(0%)">
+              ${slidesHTML}
+            </div>
+            ${buttonsHTML}
+            <div class="carousel-indicators">
+              ${indicatorsHTML}
+            </div>
+          </div>
+        `;
+      }
+
+      // 7. 組合最終 HTML
       DOM.projectContent.innerHTML = `
         <article class="project-detail">
           <header class="section-head" style="display:block; margin-bottom: var(--space-6); border-bottom: none;">
@@ -285,15 +321,11 @@
             </div>
           </header>
 
-          <figure class="hero-image-container" style="margin-bottom: var(--space-6); max-width: 1200px; margin-left: auto; margin-right: auto;">
-            <img src="${project.image}" alt="${escapeHTML(project.title)}" class="hero-image" style="width:100%; height:auto; object-fit: cover; max-height: 80vh;">
-          </figure>
+          ${carouselHTML}
 
           <div class="content-body" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4);">
             ${detailsHTML}
           </div>
-
-          ${galleryHTML}
 
           <div class="project-nav" style="margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--color-border); text-align: center;">
             <a href="projects.html" class="btn primary">← Back to Projects</a>
@@ -301,10 +333,81 @@
         </article>
       `;
 
+      // 8. 初始化 Carousel 邏輯
+      if (allImages.length > 1) {
+        initCarouselLogic(allImages.length);
+      }
+
     } catch (error) {
       console.error("Failed to load project details:", error);
       showError(DOM.projectContent, "Error loading project details.");
     }
+  }
+
+  /**
+   * 初始化 Carousel 滑動邏輯
+   * @param {number} totalSlides - 總滑片數量
+   */
+  function initCarouselLogic(totalSlides) {
+    let currentSlide = 0;
+    const track = document.querySelector('.carousel-track');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+
+    if (!track) return;
+
+    // 更新滑片位置和指示器狀態
+    function updateCarousel() {
+      const translateX = -currentSlide * 100;
+      track.style.transform = `translateX(${translateX}%)`;
+      
+      // 更新指示器
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentSlide);
+      });
+      
+      // 更新按鈕狀態
+      if (prevBtn) prevBtn.disabled = currentSlide === 0;
+      if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+
+    // 切換到指定滑片
+    function goToSlide(slideIndex) {
+      currentSlide = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+      updateCarousel();
+    }
+
+    // 上一張
+    function goToPrev() {
+      if (currentSlide > 0) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    // 下一張
+    function goToNext() {
+      if (currentSlide < totalSlides - 1) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    // 事件監聽器
+    if (prevBtn) prevBtn.addEventListener('click', goToPrev);
+    if (nextBtn) nextBtn.addEventListener('click', goToNext);
+    
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => goToSlide(index));
+    });
+
+    // 鍵盤支援
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goToPrev();
+      if (e.key === 'ArrowRight') goToNext();
+    });
+
+    // 初始化狀態
+    updateCarousel();
   }
   /**
    * 初始化出版物頁面（PDF Viewer）

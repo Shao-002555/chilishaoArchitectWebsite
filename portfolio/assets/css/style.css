@@ -141,6 +141,8 @@ img {
   margin-bottom: var(--space-5);
   white-space: nowrap; /* 強制不換行 */
   width: 100%;
+  color: white;
+  -webkit-text-stroke: 0.25px black;
 }
 
 .hero .subtitle {
@@ -148,12 +150,16 @@ img {
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: var(--space-4);
+  color: white;
+  -webkit-text-stroke: 0.25px black;
 }
 
 .hero .lede {
   max-width: 90ch;
   font-size: 1.25rem;
   color: var(--color-muted);
+  color: white;
+  -webkit-text-stroke: 0.25px black;
 }
 
 /* ==========================================================================
@@ -392,6 +398,7 @@ img {
   display: flex;
   flex-direction: column;
   width: fit-content;    /* 關鍵：讓容器寬度由內容（圖片）決定 */
+  height: fit-content;   /* 高度同理 */
   max-width: 100%;       /* 防止超出螢幕邊界 */
   margin: 0 auto var(--space-6); /* 居中並增加底部間距 */
 }
@@ -400,7 +407,7 @@ img {
 .detail-image {
   display: block;
   width: 100%;           /* 填滿父容器 */
-  height: auto;          /* 維持原始比例，不強制 1:1 */
+  height: 100%;          /* 維持原始比例，不強制 1:1 */
   pointer-events: auto;  /* 覆蓋 global 的 none，讓詳情頁圖片可互動 */
 }
 
@@ -444,4 +451,98 @@ img {
   .cards {
     grid-template-columns: 1fr;
   }
+}
+
+/* ==========================================================================
+   9. Carousel/Slider Styles (Project Detail)
+   ========================================================================== */
+
+.carousel-container {
+  position: relative;
+  height: 70vh;
+  background: #111;
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+  border-radius: 4px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.carousel-slide img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: auto;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+  border-radius: 4px;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.carousel-btn.prev {
+  left: 1rem;
+}
+
+.carousel-btn.next {
+  right: 1rem;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.carousel-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.carousel-indicator.active {
+  background: white;
+}
+
+.carousel-indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
 }

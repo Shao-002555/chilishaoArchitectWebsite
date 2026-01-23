@@ -30,7 +30,11 @@
       "The design aims to create a sanctuary for knowledge within the chaotic urban fabric, using light and structural rhythm to guide the user's journey."
     ],
     "image": "assets/images/ProjectImage/Project_02.jpg",
-    "gallery": [],
+    "gallery": [
+        "assets/images/ProjectImage/Project_02_01.jpg",
+        "assets/images/ProjectImage/Project_02_02.jpg",
+        "assets/images/ProjectImage/Project_02_03.jpg"
+    ],
     "link": "project-detail.html?id=02"
   },
   {
