@@ -12,6 +12,21 @@ body {
   font-family: var(--font-TimesNewRoman), serif;
   line-height: 1.5;
   padding-top: 80px; /* 補償固定導覽列高度 */
+  overflow-x: hidden; /* 防止水平滾動 */
+}
+
+/* 頁面載入動畫狀態 */
+body.page-loading {
+  overflow: hidden;
+}
+
+body.page-loaded {
+  overflow-x: hidden;
+}
+
+/* 所有連結的基礎過渡效果 */
+a {
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .container {
@@ -63,6 +78,12 @@ img {
   z-index: 100;
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* 滾動時的導覽列樣式 */
+.site-header.scrolled {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
 .header-inner {
@@ -77,6 +98,11 @@ img {
   font-size: 1.25rem;
   text-transform: uppercase;
   letter-spacing: -0.02em;
+  transition: transform 0.3s ease;
+}
+
+.header-inner .logo:hover {
+  transform: scale(1.05);
 }
 
 .site-nav ul {
@@ -89,7 +115,26 @@ img {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
-  transition: color 0.2s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+/* 導覽連結底線動畫 */
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-nav a:hover::after,
+.site-nav a.active::after {
+  width: 100%;
 }
 
 .site-nav a:hover,
@@ -201,8 +246,8 @@ img {
 /* 1. 基礎網格設定 */
 .grid {
   display: grid;
-  gap: 20px; /* 增加間隙，讓彈出效果更明顯 */
-  background: transparent; /* 如果不需要背景線可以改透明 */
+  gap: 20px;
+  background: transparent;
 }
 
 .cards {
@@ -211,46 +256,130 @@ img {
   transition: all 0.3s ease;
 }
 
-/* 2. 基礎卡片樣式 */
+/* 2. 基礎卡片樣式 - 全新 Hover Overlay 設計 */
 .card {
   background: var(--color-bg);
-  padding: var(--space-5);
+  padding: 0; /* 移除 padding，讓圖片填滿 */
   display: flex;
   flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 加入平滑曲線 */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   z-index: 1;
-  border: 1px solid var(--color-border); /* 讓邊界清楚一點 */
+  border: 1px solid var(--color-border);
+  overflow: hidden; /* 隱藏溢出內容 */
 }
 
 /* 3. 當滑鼠進入 .cards 區域時，所有卡片先呈現「半色調/淡化」 */
 .cards:hover .card {
   opacity: 0.5;
-  filter: grayscale(80%) blur(1px); /* 半色調與微模糊效果 */
-  transform: scale(0.95); /* 未選中的稍微縮小，對比更強 */
+  filter: grayscale(80%) blur(1px);
+  transform: scale(0.95);
 }
 
 /* 4. 當滑鼠正對準特定的 .card 時，該卡片「放大彈出」並恢復正常顏色 */
 .cards .card:hover {
   opacity: 1;
   filter: grayscale(0%) blur(0px);
-  transform: scale(1.08) translateY(-10px); /* 放大並向上位移 */
-  z-index: 10; /* 確保在最上層 */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 加入陰影增加立體感 */
+  transform: scale(1.08) translateY(-10px);
+  z-index: 10;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
-/* 圖片的灰階切換維持原本邏輯，但配合整體動畫 */
+/* 圖片樣式 */
 .card-media {
   aspect-ratio: 1/1;
   object-fit: cover;
   filter: grayscale(100%);
-  transition: filter 0.3s ease;
-  margin-bottom: var(--space-4);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-bottom: 0;
   pointer-events: none;
+  width: 100%;
 }
 
 .card:hover .card-media {
   filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+/* 卡片連結樣式 */
+.card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ===== 新增：卡片內容 Overlay 效果 ===== */
+.card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-5);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+  transform: translateY(100%);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+}
+
+.card-body h3 {
+  color: #fff;
+  margin-bottom: var(--space-2);
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+}
+
+.card-body h3 a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.card-body h3 a:hover {
+  color: var(--color-accent);
+}
+
+.card-body p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+  margin-bottom: 0;
+}
+
+/* Hover 時顯示 Overlay */
+.card:hover .card-body {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card:hover .card-body h3,
+.card:hover .card-body p {
+  transform: translateY(0);
+}
+
+/* 卡片操作按鈕 */
+.card-actions {
+  margin-top: var(--space-4);
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+
+.card:hover .card-actions {
+  transform: translateY(0);
+}
+
+.card-actions .btn {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.card-actions .btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
 }
 
 /* 表單樣式 */
@@ -426,17 +555,138 @@ img {
   }
 }
 /* ==========================================================================
-   7. 安全防護與列印設定
+   7. 滾動動畫效果 (Scroll Animations)
+   ========================================================================== */
+
+/* 淡入動畫基礎類別 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 左側滑入 */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 右側滑入 */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 縮放淡入 */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 交錯動畫延遲 - 用於列表項目 */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.stagger-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 平滑滾動 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 頁面標題動畫 */
+.section h1,
+.section h2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.section h1::after,
+.section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+}
+
+.section h1.visible::after,
+.section h2.visible::after {
+  width: 60px;
+}
+
+/* ==========================================================================
+   8. 安全防護與列印設定
    ========================================================================== */
 @media print {
   body {
-    display: none !important; /* 防止 Ctrl+P 列印轉存 */
+    display: none !important;
   }
 }
 
 /* ==========================================================================
-   8. 響應式調整 (Responsive)
+   9. 響應式調整 (Responsive)
    ========================================================================== */
+
+/* 卡片在手機版的特殊處理 - 預設顯示標題 */
+@media (max-width: 768px) {
+  .card-body {
+    transform: translateY(0);
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    padding: var(--space-4);
+  }
+  
+  .card-body h3,
+  .card-body p {
+    transform: translateY(0);
+  }
+  
+  .card-body p {
+    display: none; /* 手機版隱藏描述，只顯示標題 */
+  }
+  
+  .card:hover .card-body p {
+    display: block;
+  }
+}
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 3.5rem;
@@ -545,4 +795,471 @@ img {
 
 .carousel-indicator:hover {
   background: rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================================================================
+   10. 通用頁面動畫 (Page Animations)
+   ========================================================================== */
+
+/* 基礎 Keyframes 定義 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUpLarge {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lineExpand {
+  to {
+    width: 60px;
+  }
+}
+
+@keyframes textReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* 通用動畫類別 */
+.anim-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.anim-fade-in-up-large {
+  opacity: 0;
+  animation: fadeInUpLarge 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.anim-slide-in-left {
+  opacity: 0;
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.anim-slide-in-right {
+  opacity: 0;
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.anim-scale-in {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 動畫延遲類別 */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+.delay-7 { animation-delay: 0.7s; }
+.delay-8 { animation-delay: 0.8s; }
+.delay-9 { animation-delay: 0.9s; }
+
+/* ==========================================================================
+   11. Hero 區塊動畫 (Index Page)
+   ========================================================================== */
+#hero h1 {
+  opacity: 0;
+  animation: fadeInUpLarge 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+}
+
+#hero .subtitle {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
+}
+
+#hero .lede {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s forwards;
+}
+
+.hero-cta {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.9s forwards;
+}
+
+/* Hero CTA 按鈕懸停效果 */
+.hero-cta .btn {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-cta .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.hero-cta .btn:hover::before {
+  left: 0;
+}
+
+/* ==========================================================================
+   12. About 頁面動畫
+   ========================================================================== */
+.about-media {
+  opacity: 0;
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+}
+
+.about-media img {
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+
+.about-media:hover img {
+  filter: grayscale(0%);
+}
+
+.about-content {
+  opacity: 0;
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
+}
+
+.about-content h1 {
+  position: relative;
+  display: inline-block;
+}
+
+.about-content h1::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  animation: lineExpand 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+}
+
+/* ==========================================================================
+   13. Projects 頁面動畫
+   ========================================================================== */
+.projects-page .section h1,
+.projects-page .section-intro,
+#projects-grid {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.projects-page .section h1 { animation-delay: 0.1s; }
+.projects-page .section-intro { animation-delay: 0.3s; }
+#projects-grid { animation-delay: 0.5s; }
+
+/* ==========================================================================
+   14. Ideas 頁面動畫
+   ========================================================================== */
+.ideas-page .section h1,
+.ideas-page .section-intro,
+.ribbon {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.ideas-page .section h1 { animation-delay: 0.1s; }
+.ideas-page .section-intro { animation-delay: 0.3s; }
+.ribbon { animation-delay: 0.5s; }
+
+/* Ribbon 卡片效果 */
+.ribbon-card {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ribbon-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ribbon-card .card-media {
+  filter: grayscale(100%);
+  transition: filter 0.4s ease;
+}
+
+.ribbon-card:hover .card-media {
+  filter: grayscale(0%);
+}
+
+/* Ribbon 導航按鈕 */
+.ribbon-nav {
+  transition: all 0.3s ease;
+}
+
+.ribbon-nav:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   15. Project Detail 頁面動畫
+   ========================================================================== */
+.carousel-container {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+}
+
+#project-content h1 {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
+}
+
+#project-content .lede {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+}
+
+/* Carousel 按鈕增強效果 */
+.carousel-btn {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-btn:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.1);
+  background: rgba(0, 0, 0, 0.95);
+}
+
+/* Carousel 指示器動畫 */
+.carousel-indicator {
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator:hover {
+  transform: scale(1.3);
+}
+
+.carousel-indicator.active {
+  transform: scale(1.2);
+}
+
+/* 圖片畫廊過渡 */
+.detail-media-group {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.detail-media-group:nth-child(1) { animation-delay: 0.3s; }
+.detail-media-group:nth-child(2) { animation-delay: 0.5s; }
+.detail-media-group:nth-child(3) { animation-delay: 0.7s; }
+
+/* ==========================================================================
+   16. Publication 頁面樣式與動畫
+   ========================================================================== */
+.pub-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.pub-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.pub-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pub-item:hover {
+  transform: translateX(10px);
+}
+
+.pub-item:hover .pub-cover img {
+  filter: grayscale(0%);
+  transform: scale(1.02);
+}
+
+.pub-cover {
+  overflow: hidden;
+}
+
+.pub-cover img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  filter: grayscale(100%);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pub-info h2 {
+  margin-bottom: var(--space-2);
+  font-size: 1.5rem;
+}
+
+.publication-page .section h1 {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
+}
+
+@media (max-width: 768px) {
+  .pub-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   17. Contact 頁面動畫
+   ========================================================================== */
+.contact-form-wrapper {
+  opacity: 0;
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+}
+
+.contact-social {
+  opacity: 0;
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
+}
+
+/* 表單欄位動畫 */
+.contact-form-wrapper .form-field {
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.contact-form-wrapper .form-field:nth-child(1) { animation-delay: 0.3s; }
+.contact-form-wrapper .form-field:nth-child(2) { animation-delay: 0.4s; }
+.contact-form-wrapper .form-field:nth-child(3) { animation-delay: 0.5s; }
+
+/* 表單輸入框焦點效果 */
+.contact-form-wrapper .form-field input:focus,
+.contact-form-wrapper .form-field textarea:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 社交連結 Hover 效果 */
+.contact-social .social-list a {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-social .social-list a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.3s ease;
+}
+
+.contact-social .social-list a:hover::before {
+  width: 100%;
+}
+
+.contact-social .social-list li {
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.contact-social .social-list li:nth-child(1) { animation-delay: 0.5s; }
+.contact-social .social-list li:nth-child(2) { animation-delay: 0.6s; }
+.contact-social .social-list li:nth-child(3) { animation-delay: 0.7s; }
+
+/* 送出按鈕效果 */
+#contact-form .btn {
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+#contact-form .btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+#contact-form .btn:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ==========================================================================
+   18. 頁面載入過渡
+   ========================================================================== */
+.page-loading .section {
+  opacity: 0;
+}
+
+.page-loaded .section {
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }

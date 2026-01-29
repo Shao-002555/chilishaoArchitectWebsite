@@ -95,8 +95,8 @@
 
     return `
       <article class="card">
-        <a href="${link}" style="display:block; overflow:hidden;">
-            <img class="card-media" src="${img}" alt="${title}" loading="lazy" style="transition: transform 0.3s ease;" />
+        <a href="${link}" class="card-link" aria-label="${title}">
+          <img class="card-media" src="${img}" alt="${title}" loading="lazy" />
         </a>
         <div class="card-body">
           <h3><a href="${link}">${title}</a></h3>
