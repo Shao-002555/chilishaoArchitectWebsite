@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications | Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .pub-list { display: flex; flex-direction: column; gap: var(--space-8); margin-top: var(--space-6); }
+        .pub-item { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center; text-decoration: none; color: inherit; transition: opacity 0.3s; }
+        .pub-item:hover { opacity: 0.8; }
+        .pub-cover img { width: 100%; height: auto; border: 1px solid var(--color-border); }
+        .pub-info h2 { margin-bottom: var(--space-2); font-size: 1.5rem; }
+        @media (max-width: 768px) { .pub-item { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+    <main class="site-main">
+        <section class="section">
+            <div class="container">
+                <h1>Publications</h1>
+                <div id="publications-list" class="pub-list">
+                    </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // 載入導航列
+        fetch("navbar.html").then(res => res.text()).then(data => { 
+            document.getElementById("navbar-placeholder").innerHTML = data; 
+        });
+    </script>
+</body>
+</html>

@@ -10,12 +10,12 @@
       "However, these modifications often lack holistic spatial planning, prioritizing unit quantity over spatial quality. Consequently, essential elements such as circulation, natural ventilation, and daylighting are compromised, leading to a significant decline in living standards.",
       "This design attempts to rediscover the quality of living and the possibility of community interaction while meeting the density requirements."
     ],
-    "image": "assets/images/ProjectImage/Project_01.jpg",
+    "image": "../assets/images/ProjectImage/Project_01.jpg",
     "gallery": [
-      "assets/images/ProjectImage/Project_01_01.jpg",
-      "assets/images/ProjectImage/Project_01_02.jpg",
-      "assets/images/ProjectImage/Project_01_03.jpg",
-      "assets/images/ProjectImage/Project_01_04.jpg"
+      "../assets/images/ProjectImage/Project_01_01.jpg",
+      "../assets/images/ProjectImage/Project_01_02.jpg",
+      "../assets/images/ProjectImage/Project_01_03.jpg",
+      "../assets/images/ProjectImage/Project_01_04.jpg"
     ],
     "link": "project-detail.html?id=01"
   },
@@ -29,11 +29,11 @@
       "Focused on the concept of 'In-Between', this project explores the spatial relationship between the reader, the book, and the urban environment.",
       "The design aims to create a sanctuary for knowledge within the chaotic urban fabric, using light and structural rhythm to guide the user's journey."
     ],
-    "image": "assets/images/ProjectImage/Project_02.jpg",
+    "image": "../assets/images/ProjectImage/Project_02.jpg",
     "gallery": [
-        "assets/images/ProjectImage/Project_02_01.jpg",
-        "assets/images/ProjectImage/Project_02_02.jpg",
-        "assets/images/ProjectImage/Project_02_03.jpg"
+      "../assets/images/ProjectImage/Project_02_01.jpg",
+      "../assets/images/ProjectImage/Project_02_02.jpg",
+      "../assets/images/ProjectImage/Project_02_03.jpg"
     ],
     "link": "project-detail.html?id=02"
   },
@@ -47,8 +47,12 @@
       "This project investigates the aesthetic of exposed structure and mechanical services, drawing inspiration from the Centre Pompidou.",
       "By creating an immersive spatial installation, it challenges the traditional boundaries between functional infrastructure and architectural space."
     ],
-    "image": "assets/images/ProjectImage/Project_03.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_03.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_03_01.jpg",
+      "../assets/images/ProjectImage/Project_03_02.jpg",
+      "../assets/images/ProjectImage/Project_03_03.jpg"
+    ],
     "link": "project-detail.html?id=03"
   },
   {
@@ -61,8 +65,12 @@
       "A community infrastructure project that functions as a linear narrative of the site's collective memory.",
       "The design integrates pedestrian pathways with community nodes, fostering social interaction while preserving and highlighting historical traces of the neighborhood."
     ],
-    "image": "assets/images/ProjectImage/Project_04.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_04.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_04_01.jpg",
+      "../assets/images/ProjectImage/Project_04_02.jpg",
+      "../assets/images/ProjectImage/Project_04_03.jpg"
+    ],
     "link": "project-detail.html?id=04"
   },
   {
@@ -75,8 +83,12 @@
       "Rethinking the educational environment as a 'Working Palace', where learning is treated with the dignity of a civic institution.",
       "The layout promotes collaborative learning and flexible interactions, moving away from rigid classroom hierarchies."
     ],
-    "image": "assets/images/ProjectImage/Project_05.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_05.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_05_01.jpg",
+      "../assets/images/ProjectImage/Project_05_02.jpg",
+      "../assets/images/ProjectImage/Project_05_03.jpg"
+    ],
     "link": "project-detail.html?id=05"
   },
   {
@@ -89,8 +101,12 @@
       "Addressing the challenges of rapid urbanization, this project proposes a high-density accommodation solution.",
       "It focuses on modularity and efficiency without sacrificing the quality of individual living spaces."
     ],
-    "image": "assets/images/ProjectImage/Project_06.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_06.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_06_01.jpg",
+      "../assets/images/ProjectImage/Project_06_02.jpg",
+      "../assets/images/ProjectImage/Project_06_03.jpg"
+    ],
     "link": "project-detail.html?id=06"
   },
   {
@@ -104,8 +120,12 @@
       "By decoupling geometry and material data, CostGen computes accurate building costs directly from a material database once the geometric model is defined.",
       "This enables real-time cost feedback without additional modeling workload, streamlining the BIM workflow from design to construction estimation."
     ],
-    "image": "assets/images/ProjectImage/Project_07.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_07.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_07_01.jpg",
+      "../assets/images/ProjectImage/Project_07_02.jpg",
+      "../assets/images/ProjectImage/Project_07_03.jpg"
+    ],
     "link": "project-detail.html?id=07"
   },
   {
@@ -118,8 +138,12 @@
       "Utilizing Space Syntax methodologies to analyze urban grids and building layouts.",
       "This research visualizes spatial integration and connectivity, providing data-driven insights for architectural decision-making."
     ],
-    "image": "assets/images/ProjectImage/Project_08.jpg",
-    "gallery": [],
+    "image": "../assets/images/ProjectImage/Project_08.jpg",
+    "gallery": [
+      "../assets/images/ProjectImage/Project_08_01.jpg",
+      "../assets/images/ProjectImage/Project_08_02.jpg",
+      "../assets/images/ProjectImage/Project_08_03.jpg"
+    ],
     "link": "project-detail.html?id=08"
   }
 ]

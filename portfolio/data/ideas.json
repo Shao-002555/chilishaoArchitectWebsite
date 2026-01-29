@@ -3,19 +3,19 @@
     "title": "On Light and Space",
     "date": "2025-01-15",
     "excerpt": "Natural light shapes how we experience form. A small aperture can frame an entire mood.",
-    "image": "assets/images/idea1.jpg"
+    "image": "../assets/images/idea1.jpg"
   },
   {
     "title": "Quiet Interfaces",
     "date": "2025-02-02",
     "excerpt": "Interfaces should whisper, not shout. A few careful contrasts guide attention without fatigue.",
-    "image": "assets/images/idea2.jpg"
+    "image": "../assets/images/idea2.jpg"
   },
   {
     "title": "Material Honesty",
     "date": "2025-03-10",
     "excerpt": "Whether brick or CSS, let the material speak. Embrace constraints as character.",
-    "image": "assets/images/idea3.jpg"
+    "image": "../assets/images/idea3.jpg"
   }
 ]
 

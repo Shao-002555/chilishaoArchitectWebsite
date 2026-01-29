@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Publication | Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+    <main class="site-main">
+        <section class="section">
+            <div class="container">
+                <div style="margin-bottom: var(--space-4);">
+                    <a href="publication.html" class="btn">← Back to Publications</a>
+                </div>
+                <h1 id="pub-detail-title">Loading...</h1>
+                <p id="pub-detail-desc" style="color: var(--color-muted); margin-bottom: var(--space-6);"></p>
+                
+                <div class="pdf-frame" style="border: 1px solid var(--color-border); height: 85vh;">
+                    <iframe id="pub-pdf-iframe" src="" width="100%" height="100%" style="border: none;"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        fetch("navbar.html").then(res => res.text()).then(data => { 
+            document.getElementById("navbar-placeholder").innerHTML = data; 
+        });
+    </script>
+</body>
+</html>

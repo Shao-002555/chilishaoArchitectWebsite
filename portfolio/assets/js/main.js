@@ -86,7 +86,7 @@
    * @returns {string} 卡片 HTML
    */
   function createProjectCard(project, withActions = false) {
-    const img = project.image || "assets/images/project1.jpg";
+    const img = project.image || "../assets/images/project1.jpg";
     // 如果有 link 屬性則使用，否則如果 id 存在則自動生成詳情頁連結
     const link =
       project.link || (project.id ? `project-detail.html?id=${project.id}` : "#");
@@ -120,7 +120,7 @@
    * @returns {string} 卡片 HTML
    */
   function createIdeaCard(idea) {
-    const img = idea.image || "assets/images/project1.jpg";
+    const img = idea.image || "../assets/images/project1.jpg";
     const title = escapeHTML(idea.title);
     const excerpt = escapeHTML(idea.excerpt);
     const date = idea.date
@@ -160,8 +160,8 @@
 
     try {
       const [aboutData, skillsData] = await Promise.all([
-        loadJSON("data/about.json"),
-        loadJSON("data/skills.json"),
+        loadJSON("../data/about.json"),
+        loadJSON("../data/skills.json"),
       ]);
 
       // 渲染 About 內容
@@ -200,7 +200,7 @@
     if (!DOM.featuredGrid && !DOM.projectsGrid) return;
 
     try {
-      const projects = await loadJSON("data/projects.json");
+      const projects = await loadJSON("../data/projects.json");
 
       // 渲染精選專案（首頁）
       if (DOM.featuredGrid) {
@@ -244,7 +244,7 @@
 
     try {
       // 2. 載入資料
-      const projects = await loadJSON("data/projects.json");
+      const projects = await loadJSON("../data/projects.json");
 
       // 3. 尋找對應的專案 (確保型別一致，轉為 String 比對)
       const project = projects.find(p => String(p.id) === projectId);
@@ -256,15 +256,15 @@
 
       // 4. 合併圖片：將封面圖和畫廊合併為一個陣列
       let allImages = [];
-      
+
       // 添加封面圖（如果存在且非空）
       if (project.image && project.image.trim()) {
         allImages.push(project.image);
       }
-      
+
       // 添加畫廊圖片（如果存在）並去除重複
       if (project.gallery && Array.isArray(project.gallery)) {
-        const uniqueGalleryImages = project.gallery.filter(img => 
+        const uniqueGalleryImages = project.gallery.filter(img =>
           img && img.trim() && !allImages.includes(img)
         );
         allImages = allImages.concat(uniqueGalleryImages);
@@ -283,14 +283,14 @@
             <img src="${img}" alt="Project Image" loading="lazy" />
           </div>
         `).join('');
-        
-        const indicatorsHTML = allImages.length > 1 
+
+        const indicatorsHTML = allImages.length > 1
           ? allImages.map((_, index) => `
             <button class="carousel-indicator ${index === 0 ? 'active' : ''}" data-slide="${index}"></button>
           `).join('')
           : '';
-          
-        const buttonsHTML = allImages.length > 1 
+
+        const buttonsHTML = allImages.length > 1
           ? `
             <button class="carousel-btn prev" data-dir="prev">‹</button>
             <button class="carousel-btn next" data-dir="next">›</button>
@@ -343,7 +343,55 @@
       showError(DOM.projectContent, "Error loading project details.");
     }
   }
+  // 修改後的 initPublicationsPage (用於列表頁)
+  async function initPublicationsPage() {
+    const listContainer = document.getElementById("publications-list");
+    if (!listContainer) return;
 
+    try {
+      const data = await loadJSON("../data/publications.json");
+      listContainer.innerHTML = data.map(pub => `
+      <a href="publication-detail.html?id=${pub.id}" class="pub-item">
+        <div class="pub-cover">
+          <img src="${pub.cover}" alt="${escapeHTML(pub.title)}">
+        </div>
+        <div class="pub-info">
+          <h2>${escapeHTML(pub.title)}</h2>
+          <p>${escapeHTML(pub.description)}</p>
+          <span class="btn">Read Document</span>
+        </div>
+      </a>
+    `).join("");
+    } catch (error) {
+      showError(listContainer, "Failed to load publications.");
+    }
+  }
+
+  // 新增的 initPubDetailPage (用於內文頁)
+  async function initPubDetailPage() {
+    const iframe = document.getElementById("pub-pdf-iframe");
+    const titleEl = document.getElementById("pub-detail-title");
+    const descEl = document.getElementById("pub-detail-desc");
+    if (!iframe) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const pubId = params.get("id");
+
+    try {
+      const data = await loadJSON("../data/publications.json");
+      const pub = data.find(p => p.id === pubId);
+
+      if (pub) {
+        titleEl.textContent = pub.title;
+        descEl.textContent = pub.description;
+        iframe.src = `${pub.docs}#toolbar=0&navpanes=0`;
+      } else {
+        titleEl.textContent = "Document Not Found";
+      }
+    } catch (error) {
+      console.error("Error loading publication detail:", error);
+    }
+  }
   /**
    * 初始化 Carousel 滑動邏輯
    * @param {number} totalSlides - 總滑片數量
@@ -361,12 +409,12 @@
     function updateCarousel() {
       const translateX = -currentSlide * 100;
       track.style.transform = `translateX(${translateX}%)`;
-      
+
       // 更新指示器
       indicators.forEach((indicator, index) => {
         indicator.classList.toggle('active', index === currentSlide);
       });
-      
+
       // 更新按鈕狀態
       if (prevBtn) prevBtn.disabled = currentSlide === 0;
       if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
@@ -395,7 +443,7 @@
     // 事件監聽器
     if (prevBtn) prevBtn.addEventListener('click', goToPrev);
     if (nextBtn) nextBtn.addEventListener('click', goToNext);
-    
+
     indicators.forEach((indicator, index) => {
       indicator.addEventListener('click', () => goToSlide(index));
     });
@@ -409,55 +457,7 @@
     // 初始化狀態
     updateCarousel();
   }
-  /**
-   * 初始化出版物頁面（PDF Viewer）
-   */
-  function initPublicationsPage() {
-    if (!DOM.pdfIframe) return;
 
-    let publicationsData = [];
-    let currentIndex = 0;
-
-    function updateViewer(index) {
-      if (publicationsData.length === 0 || !publicationsData[index]) return;
-
-      const doc = publicationsData[index];
-      if (DOM.docTitle) DOM.docTitle.textContent = doc.title;
-      if (DOM.docDesc) DOM.docDesc.textContent = doc.description;
-
-      DOM.pdfIframe.src = `${doc.docs}#toolbar=0&navpanes=0&scrollbar=1`;
-      currentIndex = index;
-
-      if (DOM.prevDocBtn) DOM.prevDocBtn.disabled = currentIndex === 0;
-      if (DOM.nextDocBtn)
-        DOM.nextDocBtn.disabled = currentIndex === publicationsData.length - 1;
-    }
-
-    function navigatePrevious() {
-      if (currentIndex > 0) updateViewer(currentIndex - 1);
-    }
-
-    function navigateNext() {
-      if (currentIndex < publicationsData.length - 1)
-        updateViewer(currentIndex + 1);
-    }
-
-    loadJSON("data/publications.json")
-      .then((data) => {
-        publicationsData = data;
-        if (publicationsData.length > 0) {
-          updateViewer(0);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load publications:", error);
-        if (DOM.docDesc) DOM.docDesc.textContent = "無法載入文件列表。";
-      });
-
-    DOM.prevDocBtn?.addEventListener("click", navigatePrevious);
-    DOM.nextDocBtn?.addEventListener("click", navigateNext);
-    DOM.pdfIframe.addEventListener("contextmenu", (e) => e.preventDefault());
-  }
 
   /**
    * 禁止全網頁右鍵選單
@@ -482,7 +482,7 @@
     if (!DOM.ideasRibbon) return;
 
     try {
-      const ideas = await loadJSON("data/ideas.json");
+      const ideas = await loadJSON("../data/ideas.json");
       DOM.ideasRibbon.innerHTML =
         ideas.length > 0
           ? ideas.map((idea) => createIdeaCard(idea)).join("")
@@ -525,8 +525,9 @@
     initYear();
     initAboutPage();
     initProjectsPage();
-    initProjectDetailPage(); // 新增：初始化詳情頁邏輯
-    initPublicationsPage();
+    initProjectDetailPage(); // 初始化專案詳情頁邏輯
+    initPublicationsPage(); // 初始化出版物列表頁
+    initPubDetailPage(); // 初始化出版物詳情頁
     initIdeasPage();
     initRibbonScrollControls();
   }

@@ -9,7 +9,7 @@ let pdfDoc = null,
     ctx = canvas.getContext('2d');
 
 // 指定 PDF 檔案路徑 (請更換為你的 PDF 檔名)
-const pdfPath = 'assets/docs/PortfolioA3.pdf'; 
+const pdfPath = '../assets/docs/PortfolioA3.pdf'; 
 
 /**
  * 渲染指定頁面
